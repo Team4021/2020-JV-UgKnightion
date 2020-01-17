@@ -1,0 +1,9 @@
+[
+  {
+    "artifact": "frcJava (in project EtherTest)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "EtherTest",
+    "language": "java"
+  }
+]
