@@ -70,15 +70,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    /*x = doIt.getRawAxis(1);
-    y = doIt.getRawAxis(0);*/
-    /*driveyBoi.arcadeDrive(-x, y);
+    x = doIt.getRawAxis(1);
+    y = doIt.getRawAxis(0);
+    driveyBoi.arcadeDrive(-x, y);
     if(doIt.getRawButton(1) == true) {
       blaster.set(.5);
     }
       else {
         blaster.set(0);
-      }*/
+      }
   }
 
   /**
