@@ -10,6 +10,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.drive.*;
+import edu.wpi.first.cameraserver.*;
+import edu.wpi.cscore.UsbCamera;
+
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,8 +31,24 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  double x;
+  double y;
+  // doubles for driving axies
+  UsbCamera Cam;
+  Joystick doIt = new Joystick(0);
+  Talon blaster = new Talon(1);
+  Talon frontLeft = new Talon(1);
+  Talon frontRight = new Talon(1);
+  Talon backLeft = new Talon(1);
+  Talon backRight = new Talon(1);
+  // Fix numbers
+  SpeedControllerGroup left = new SpeedControllerGroup(frontLeft, backLeft);
+  SpeedControllerGroup right = new SpeedControllerGroup(frontRight, backRight);
+  DifferentialDrive driveyBoi = new DifferentialDrive(left, right);
 
-  /**
+
+
+  /**g
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
@@ -33,6 +57,7 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    Cam = CameraServer.getInstance().startAutomaticCapture(0);
   }
 
   /**
@@ -45,6 +70,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    /*x = doIt.getRawAxis(1);
+    y = doIt.getRawAxis(0);*/
+    /*driveyBoi.arcadeDrive(-x, y);
+    if(doIt.getRawButton(1) == true) {
+      blaster.set(.5);
+    }
+      else {
+        blaster.set(0);
+      }*/
   }
 
   /**
@@ -86,6 +120,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+
   }
 
   /**
