@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.*;
 import edu.wpi.first.cameraserver.*;
 import edu.wpi.cscore.UsbCamera;
-
+import edu.wpi.first.wpilibj.Timer;
 
 
 /**
@@ -41,6 +41,7 @@ public class Robot extends TimedRobot {
   Talon frontRight = new Talon(1);
   Talon backLeft = new Talon(1);
   Talon backRight = new Talon(1);
+  Timer time = new Timer();
   // Fix numbers
   SpeedControllerGroup left = new SpeedControllerGroup(frontLeft, backLeft);
   SpeedControllerGroup right = new SpeedControllerGroup(frontRight, backRight);
@@ -48,7 +49,7 @@ public class Robot extends TimedRobot {
 
 
 
-  /**g
+  /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
@@ -110,7 +111,10 @@ public class Robot extends TimedRobot {
         break;
       case kDefaultAuto:
       default:
-        // Put default auto code here
+        driveyBoi.arcadeDrive(.5, 0);
+        time.delay(2);
+        driveyBoi.arcadeDrive(0,0);
+        time.delay(20);
         break;
     }
   }
