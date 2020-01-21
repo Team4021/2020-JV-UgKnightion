@@ -36,6 +36,7 @@ public class Robot extends TimedRobot {
   // doubles for driving axies
   UsbCamera Cam;
   Joystick doIt = new Joystick(0);
+  Talon blaster = new Talon(1);
   Talon frontLeft = new Talon(1);
   Talon frontRight = new Talon(1);
   Talon backLeft = new Talon(1);
@@ -47,7 +48,7 @@ public class Robot extends TimedRobot {
 
 
 
-  /**
+  /**g
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
@@ -56,7 +57,7 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    Cam = CameraServer.getInstance().startAutomaticCapture(1);
+    Cam = CameraServer.getInstance().startAutomaticCapture(0);
   }
 
   /**
@@ -69,9 +70,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    x = doIt.getRawAxis(1);
-    y = doIt.getRawAxis(0);
-    driveyBoi.arcadeDrive(-x, y);
+    /*x = doIt.getRawAxis(1);
+    y = doIt.getRawAxis(0);*/
+    /*driveyBoi.arcadeDrive(-x, y);
+    if(doIt.getRawButton(1) == true) {
+      blaster.set(.5);
+    }
+      else {
+        blaster.set(0);
+      }*/
   }
 
   /**
@@ -113,6 +120,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+
   }
 
   /**
