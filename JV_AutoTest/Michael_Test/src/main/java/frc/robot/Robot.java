@@ -15,6 +15,11 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.*;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+
+
 
 
 
@@ -30,15 +35,36 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  NetworkTableEntry tx = table.getEntry("tx"); // angle on x-axis form the crosshairs on the object to the origin
+  NetworkTableEntry ty = table.getEntry("ty"); // angle on y-axis form the crosshairs on the object to the origin
+  NetworkTableEntry ta = table.getEntry("ta"); // area of the object
+  NetworkTableEntry tlong = table.getEntry("tlong"); // length of longest side
+  NetworkTableEntry tshort = table.getEntry("tshort"); // length of shortest side
+  NetworkTableEntry tvert = table.getEntry("tvert"); // vertical distance
+  NetworkTableEntry thor = table.getEntry("thor"); // horizontal distance
+  NetworkTableEntry getpipe = table.getEntry("getpipe"); // this tells us what "pipeline" we are on, basically different settings for the camera
+  NetworkTableEntry ts = table.getEntry("ts"); // skew or rotation of target
+
+  double camx;
+  double camy;
+  double camarea;
+
+  boolean aligned;
+  boolean distanced;
+
   double x;
   double y;
+
   Joystick bidoof = new Joystick(0);
+
   VictorSP frontRight = new VictorSP(2);
   VictorSP frontLeft = new VictorSP(8);
   VictorSP backRight = new VictorSP(3);
   VictorSP backLeft = new VictorSP(4);
+
   Timer timer = new Timer();
-  // Change variables
+  
   SpeedControllerGroup left = new SpeedControllerGroup(frontLeft, backLeft);
   SpeedControllerGroup right = new SpeedControllerGroup(frontRight, backRight);
   DifferentialDrive bigMoveyBoi = new DifferentialDrive(left, right);
@@ -65,9 +91,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    x = bidoof.getRawAxis(1);
-    y = bidoof.getRawAxis(0);
-    bigMoveyBoi.arcadeDrive(-x, y);
   }
 
   /**
@@ -113,6 +136,29 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    x = bidoof.getRawAxis(1);
+    y = bidoof.getRawAxis(0);
+    bigMoveyBoi.arcadeDrive(-x, y);
+
+    camx = tx.getDouble(0.0);
+    camy = ty.getDouble(0.0);
+    camarea = ta.getDouble(0.0);
+    SmartDashboard.putNumber("LimelightX", camx);
+    SmartDashboard.putNumber("LimelightX", camx);
+    SmartDashboard.putNumber("LimelightArea", camarea);
+    NetworkTableInstance.getDefault();
+
+    SmartDashboard.putBoolean("Aligned", aligned);
+    SmartDashboard.putBoolean("Distanced", aligned);
+
+    SmartDashboard.putBoolean("Motor Safety", frontLeft.isSafetyEnabled());
+
+    if (bidoof.getRawButton(6) == true) {
+      autoShoot();
+    } else {
+      aligned = false;
+      distanced = false;
+    }
   }
 
   /**
@@ -120,5 +166,49 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+  }
+
+  public void autoShoot() {
+    aligned = false;
+    distanced = false;
+
+    if (camx > 5 && camx < -5 && camy > 2.3 && camy < -2.3) {
+      System.out.println("No shoot boi");
+    }
+
+    if (bidoof.getRawButton(6) && camx > 5) {
+      left.set(.3);
+      right.set(.3);
+      aligned = false;
+      // On left, twist right
+    } else if (bidoof.getRawButton(6) && camx < -5) {
+      left.set(-.3);
+      right.set(-.3);
+      aligned = false;
+      // on right, twist left
+    } else if (bidoof.getRawButton(6) && camx > -5 && camx < 5) {
+      aligned = true;
+    }
+
+    if (bidoof.getRawButton(6) && camy > 2.3 && aligned == true) {
+      left.set(-.3);
+      right.set(.3);
+      distanced = false;
+      // Too close, backs up
+    } else if (bidoof.getRawButton(6) && camy < -2.3 && aligned == true) {
+      left.set(.3);
+      right.set(-.3);
+      distanced = false;
+      // Too far, moves closer
+    } else if (bidoof.getRawButton(6) && camy < 2.3 && camy > -2.3 && aligned == true) {
+      distanced = true;
+    }
+
+    if (bidoof.getRawButton(6) && distanced == true && aligned == true) {
+      System.out.println("We did it boys, unalignment is no more");
+      //blaster.set(1)
+      aligned = false;
+      distanced = false;
+    }
   }
 }
