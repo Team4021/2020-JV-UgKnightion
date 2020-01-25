@@ -15,6 +15,9 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.*;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 
 /**
@@ -29,6 +32,23 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  NetworkTableEntry tx = table.getEntry("tx"); 
+  NetworkTableEntry ty = table.getEntry("ty");
+  NetworkTableEntry ta = table.getEntry("ta");
+  NetworkTableEntry tlong = table.getEntry("tlong");
+  NetworkTableEntry tshort = table.getEntry("tshort");
+  NetworkTableEntry tvert = table.getEntry("tvert");
+  NetworkTableEntry getpipe = table.getEntry("getpipe");
+  NetworkTableEntry ts = table.getEntry("ts");
+  
+double camx;
+double camy;
+double camarea;
+
+  boolean aligned; 
+  boolean distanced;
+
   double x;
   double y;
   Joystick christopher = new Joystick(0);
@@ -63,9 +83,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    x = christopher.getRawAxis(1);
-    y = christopher.getRawAxis(0);
-    michael.arcadeDrive(-x,y); 
   }
 
   /**
@@ -111,6 +128,29 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    x = christopher.getRawAxis(1);
+    y = christopher.getRawAxis(0);
+    michael.arcadeDrive(-x,y); 
+
+    camx = tx.getdouble(0.0);
+    camy = ty.getdouble(0.0);
+    camarea = ta.getdouble(0.0);
+    SmartDashboard.putNumber("LimelightX", camx);
+    SmartDashboard.putNumber("LimelightX", camx);
+    SmartDashboard.putNumber("LimelightX", camarea);
+    NetworkTableInstance.getDefault();
+
+    SmartDashboard.putBoolean("Aligned", aligned);
+    SmartDashboard.putBoolean("DistancED", distanced);
+
+    SmartDashboard.putBoolean("Motor Safety", frontLeft.isSafetyEnabled());
+
+    if(christopher.getRawButton(6) == true) {
+      autoShoot();
+    } else{
+      aligned = false;
+      distanced = false;
+    }
   }
 
   /**
@@ -118,5 +158,46 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+  }
+  public void autoShoot() {
+    aligned = false;
+    distanced = false;
+
+    if (camx > 5 && camx < -5 && camy > 2.3 && camy < -2.3) {
+      System.out.println("Do not shoot");
+
+    }
+    if (christopher.getRawButton(6) && camx > 5) {
+      left.set(.3);
+      right.set(.3);
+      aligned = false;
+
+    }else if (christopher.getRawButton(6) && camx < -5) {
+      left.set(-.3);
+      right.set(-.3);
+      aligned = false;
+
+    }else if (christopher.getRawButton(6) && camx < 5 && camx > -5) {
+      aligned = true;
+
+    }
+
+
+    if(christopher.getRawButton(6) && camy > 2.3 && aligned == true) {
+      left.set(-.3);
+      right.set(.3);
+      distanced = false;
+
+    }else if(christopher.getRawButton(6) && camy < 2.3 && aligned == true);
+    distanced = true;
+
+  }
+
+  if(christopher.getRawButton(6) && distanced == true && aligned == true) {
+    System.out.println("Aligned");
+    aligned = false;
+    distanced = false;
+    
+  } 
   }
 }
