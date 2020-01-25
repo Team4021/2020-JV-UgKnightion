@@ -10,6 +10,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.drive.*;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Joystick;
+
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,6 +30,19 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  double x;
+  double y;
+  Joystick bidoof = new Joystick(0);
+  VictorSP frontRight = new VictorSP(2);
+  VictorSP frontLeft = new VictorSP(8);
+  VictorSP backRight = new VictorSP(3);
+  VictorSP backLeft = new VictorSP(4);
+  Timer timer = new Timer();
+  // Change variables
+  SpeedControllerGroup left = new SpeedControllerGroup(frontLeft, backLeft);
+  SpeedControllerGroup right = new SpeedControllerGroup(frontRight, backRight);
+  DifferentialDrive bigMoveyBoi = new DifferentialDrive(left, right);
+
 
   /**
    * This function is run when the robot is first started up and should be
@@ -45,6 +65,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    x = bidoof.getRawAxis(1);
+    y = bidoof.getRawAxis(0);
+    bigMoveyBoi.arcadeDrive(-x, y);
   }
 
   /**
@@ -76,6 +99,10 @@ public class Robot extends TimedRobot {
         break;
       case kDefaultAuto:
       default:
+      bigMoveyBoi.arcadeDrive(.5, 0);
+      timer.delay(2);
+      bigMoveyBoi.arcadeDrive(0, 0);
+      timer.delay(20);
         // Put default auto code here
         break;
     }
