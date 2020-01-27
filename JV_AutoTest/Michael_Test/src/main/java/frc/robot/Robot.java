@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Encoder;
 
 
 
@@ -64,6 +65,8 @@ public class Robot extends TimedRobot {
   VictorSP backLeft = new VictorSP(4);
 
   Timer timer = new Timer();
+  Encoder countyBoi = new Encoder(9, 10);
+  // I have no idea what these numbers mean
   
   SpeedControllerGroup left = new SpeedControllerGroup(frontLeft, backLeft);
   SpeedControllerGroup right = new SpeedControllerGroup(frontRight, backRight);
@@ -123,7 +126,7 @@ public class Robot extends TimedRobot {
       case kDefaultAuto:
       default:
       bigMoveyBoi.arcadeDrive(.5, 0);
-      timer.delay(2);
+      timer.delay(6);
       bigMoveyBoi.arcadeDrive(0, 0);
       timer.delay(20);
         // Put default auto code here
