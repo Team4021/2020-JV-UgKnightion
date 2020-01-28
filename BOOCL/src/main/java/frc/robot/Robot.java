@@ -66,6 +66,7 @@ public class Robot extends TimedRobot {
   double camarea;
 
   boolean aligned;
+  // nice
   boolean distanced;
 
 
