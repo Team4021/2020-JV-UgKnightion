@@ -37,6 +37,7 @@ public class Robot extends TimedRobot {
   UsbCamera Cam;
   Joystick doIt = new Joystick(0);
   Talon blaster = new Talon(1);
+  Talon blasterSpin = new Talon(1);
   Talon frontLeft = new Talon(1);
   Talon frontRight = new Talon(1);
   Talon backLeft = new Talon(1);
@@ -76,10 +77,15 @@ public class Robot extends TimedRobot {
     driveyBoi.arcadeDrive(-x, y);
     if(doIt.getRawButton(1) == true) {
       blaster.set(.5);
+      blasterSpin.set(-.5);
     }
       else {
         blaster.set(0);
       }
+    if (doIt.getRawButton(2) == true) {
+      blasterSpin.set(.5);
+    }
+    
   }
 
   /**
