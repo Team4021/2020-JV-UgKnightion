@@ -21,7 +21,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-
+//24
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -36,10 +36,11 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   double x;
   double y;
-  // doubles for driving axies
+  // doubles for driving axes
   UsbCamera Cam;
   Joystick doIt = new Joystick(0);
   Talon blaster = new Talon(1);
+  Talon blasterSpin = new Talon(1);
   Talon frontLeft = new Talon(1);
   Talon frontRight = new Talon(1);
   Talon backLeft = new Talon(1);
@@ -49,7 +50,7 @@ public class Robot extends TimedRobot {
   SpeedControllerGroup left = new SpeedControllerGroup(frontLeft, backLeft);
   SpeedControllerGroup right = new SpeedControllerGroup(frontRight, backRight);
   DifferentialDrive driveyBoi = new DifferentialDrive(left, right);
-
+  // Drivey things
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   NetworkTableEntry tx = table.getEntry("tx"); // angle on x-axis form the crosshairs on the object to the origin
   NetworkTableEntry ty = table.getEntry("ty"); // angle on y-axis form the crosshairs on the object to the origin
@@ -60,13 +61,13 @@ public class Robot extends TimedRobot {
   NetworkTableEntry thor = table.getEntry("thor"); // horizontal distance
   NetworkTableEntry getpipe = table.getEntry("getpipe"); // this tells us what "pipeline" we are on, basically different settings for the camera
   NetworkTableEntry ts = table.getEntry("ts"); // skew or rotation of target
-
+  
   double camx;
   double camy;
   double camarea;
-
+  // Doooobles for lemonlite
+  /*-----------nice-----------*/
   boolean aligned;
-  // nice
   boolean distanced;
 
 
@@ -142,9 +143,13 @@ public class Robot extends TimedRobot {
     }
 
     if(doIt.getRawButton(1) == true) {
-      blaster.set(.5);
+      blaster.set(1);
+      blasterSpin.set(-1);
     } else {
         blaster.set(0);
+    }
+    if (doIt.getRawButton(2) == true) {
+      blasterSpin.set(1);
     }
     
     camx = tx.getDouble(0.0);
@@ -208,6 +213,7 @@ public class Robot extends TimedRobot {
     if (distanced == true) {
       System.out.println("Well boys, unalignment is no more");
       blaster.set(1);
+      blasterSpin.set(-1);
       aligned = false;
       distanced = false;
     }
