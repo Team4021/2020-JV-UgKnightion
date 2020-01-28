@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-
+//23
 //24
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -166,7 +166,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Motor Safety", frontLeft.isSafetyEnabled());
   }
 
-  /**
+  /** also nice
    * This function is called periodically during test mode.
    */
   @Override
@@ -179,7 +179,7 @@ public class Robot extends TimedRobot {
     distanced = false;
 
     if (camx > 5 && camx < -5 && camy > 2.3 && camy < -2.3) {
-      System.out.println("No shoot boi");
+      System.out.println("If you shoot you will fail and be sad.");
     }
 
     if (camx > 5) {
@@ -211,7 +211,7 @@ public class Robot extends TimedRobot {
     }
 
     if (distanced == true) {
-      System.out.println("Well boys, unalignment is no more");
+      System.out.println("Well boys we did it, unalignment is no more.");
       blaster.set(1);
       blasterSpin.set(-1);
       aligned = false;
@@ -219,3 +219,61 @@ public class Robot extends TimedRobot {
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// nice
+
+
+
+
+
+
+
+
+
+
