@@ -16,12 +16,11 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.*;
 import edu.wpi.first.cameraserver.*;
 import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+//22
 //23
-//24
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -40,13 +39,13 @@ public class Robot extends TimedRobot {
   UsbCamera Cam;
   Joystick doIt = new Joystick(0);
   Talon blaster = new Talon(1);
-  Talon blasterSpin = new Talon(1);
-  Talon frontLeft = new Talon(1);
-  Talon frontRight = new Talon(1);
-  Talon backLeft = new Talon(1);
-  Talon backRight = new Talon(1);
-  Timer time = new Timer();
-  // Fix numbers
+  Talon blasterSpin = new Talon(2);
+  Talon frontLeft = new Talon(3);
+  Talon frontRight = new Talon(4);
+  Talon backLeft = new Talon(5);
+  Talon backRight = new Talon(6);
+  Talon pickupBoi = new Talon(7);
+  // Fix numbers. I'm a banana!
   SpeedControllerGroup left = new SpeedControllerGroup(frontLeft, backLeft);
   SpeedControllerGroup right = new SpeedControllerGroup(frontRight, backRight);
   DifferentialDrive driveyBoi = new DifferentialDrive(left, right);
@@ -60,16 +59,16 @@ public class Robot extends TimedRobot {
   NetworkTableEntry tvert = table.getEntry("tvert"); // vertical distance
   NetworkTableEntry thor = table.getEntry("thor"); // horizontal distance
   NetworkTableEntry getpipe = table.getEntry("getpipe"); // this tells us what "pipeline" we are on, basically different settings for the camera
-  NetworkTableEntry ts = table.getEntry("ts"); // skew or rotation of target
-  
+  NetworkTableEntry ts = table.getEntry("ts"); // skew or rotation of target 
+
   double camx;
   double camy;
   double camarea;
-  // Doooobles for lemonlite
+  // Dooooooobles for lemonlite (:
+  
   /*-----------nice-----------*/
   boolean aligned;
   boolean distanced;
-
 
   /**
    * This function is run when the robot is first started up and should be
@@ -93,7 +92,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-  }
+  } // ecin
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
@@ -151,7 +150,13 @@ public class Robot extends TimedRobot {
     if (doIt.getRawButton(2) == true) {
       blasterSpin.set(1);
     }
-    
+
+    if (doIt.getRawButton(4) == true) {
+      pickupBoi.set(1);
+    } else {
+      pickupBoi.set(0);
+    }
+
     camx = tx.getDouble(0.0);
     camy = ty.getDouble(0.0);
     camarea = ta.getDouble(0.0);
@@ -261,12 +266,12 @@ public class Robot extends TimedRobot {
 
 
 
-
-
-
-
-
 // nice
+
+
+
+
+
 
 
 
