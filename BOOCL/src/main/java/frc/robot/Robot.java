@@ -38,13 +38,13 @@ public class Robot extends TimedRobot {
   // doubles for driving axes
   UsbCamera Cam;
   Joystick doIt = new Joystick(0);
-  Talon blaster = new Talon(0);
-  Talon blasterSpin = new Talon(1);
-  Talon frontLeft = new Talon(2);
-  Talon frontRight = new Talon(3);
-  Talon backLeft = new Talon(4);
-  Talon backRight = new Talon(5);
-  Talon pickupBoi = new Talon(6);
+  Talon frontLeft = new Talon(0);
+  Talon frontRight = new Talon(1);
+  Talon backLeft = new Talon(2);
+  Talon backRight = new Talon(3);
+  Talon pickupBoi = new Talon(4);
+  Talon blaster = new Talon(5);
+  Talon blasterSpin = new Talon(6);
   // Fix numbers. I'm a banana!
   SpeedControllerGroup left = new SpeedControllerGroup(frontLeft, backLeft);
   SpeedControllerGroup right = new SpeedControllerGroup(frontRight, backRight);
@@ -92,7 +92,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-  } // ecin
+  } 
+  // ecin
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
@@ -416,5 +417,4 @@ public class Robot extends TimedRobot {
 
 
 
-
-// jude is kinda neat
+// jude is kinda dum, not gonna lie
