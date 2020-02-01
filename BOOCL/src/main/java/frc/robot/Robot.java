@@ -38,13 +38,13 @@ public class Robot extends TimedRobot {
   // doubles for driving axes
   UsbCamera Cam;
   Joystick doIt = new Joystick(0);
-  Talon blaster = new Talon(1);
-  Talon blasterSpin = new Talon(2);
-  Talon frontLeft = new Talon(3);
-  Talon frontRight = new Talon(4);
-  Talon backLeft = new Talon(5);
-  Talon backRight = new Talon(6);
-  Talon pickupBoi = new Talon(7);
+  Talon blaster = new Talon(0);
+  Talon blasterSpin = new Talon(1);
+  Talon frontLeft = new Talon(2);
+  Talon frontRight = new Talon(3);
+  Talon backLeft = new Talon(4);
+  Talon backRight = new Talon(5);
+  Talon pickupBoi = new Talon(6);
   // Fix numbers. I'm a banana!
   SpeedControllerGroup left = new SpeedControllerGroup(frontLeft, backLeft);
   SpeedControllerGroup right = new SpeedControllerGroup(frontRight, backRight);
