@@ -417,4 +417,4 @@ public class Robot extends TimedRobot {
 
 
 
-// Ether kinda dumb, not gonna lie
+// jude is kinda neat
