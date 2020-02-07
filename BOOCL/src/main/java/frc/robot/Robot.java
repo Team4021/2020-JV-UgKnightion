@@ -172,7 +172,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Motor Safety", frontLeft.isSafetyEnabled());
   }
 
-  /** also nice
+  /**
    * This function is called periodically during test mode.
    */
   @Override
@@ -189,13 +189,13 @@ public class Robot extends TimedRobot {
     }
 
     if (camx > 5) {
-      left.set(.3);
-      right.set(.3);
+      left.set(-.3);
+      right.set(-.3);
       aligned = false;
       // On left, twist right
     } else if (camx < -5) {
-      left.set(-.3);
-      right.set(-.3);
+      left.set(.3);
+      right.set(.3);
       aligned = false;
       // on right, twist left
     } else if (camx > -5 && camx < 5) {
@@ -203,13 +203,13 @@ public class Robot extends TimedRobot {
     }
 
     if (camy > 2.3 && aligned == true) {
-      left.set(-.3);
-      right.set(.3);
+      left.set(.3);
+      right.set(-.3);
       distanced = false;
       // Too close, backs up
     } else if (camy < -2.3 && aligned == true) {
-      left.set(.3);
-      right.set(-.3);
+      left.set(-.3);
+      right.set(.3);
       distanced = false;
       // Too far, moves closer
     } else if (camy < 2.3 && camy > -2.3 && aligned == true) {
