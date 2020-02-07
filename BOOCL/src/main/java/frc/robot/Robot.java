@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
   Talon pickupBoi = new Talon(4);
   Talon blaster = new Talon(5);
   Talon blasterSpin = new Talon(6);
-  // Fix numbers. I'm a banana!
+  // I'm a banana!
   SpeedControllerGroup left = new SpeedControllerGroup(frontLeft, backLeft);
   SpeedControllerGroup right = new SpeedControllerGroup(frontRight, backRight);
   DifferentialDrive driveyBoi = new DifferentialDrive(left, right);
