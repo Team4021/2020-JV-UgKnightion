@@ -36,7 +36,8 @@ public class Robot extends TimedRobot {
   double x;
   double y;
   // doubles for driving axes
-  UsbCamera Cam;
+  UsbCamera Cam0;
+  UsbCamera Cam1;
   Joystick doIt = new Joystick(0);
   Talon frontLeft = new Talon(0);
   Talon frontRight = new Talon(1);
@@ -45,7 +46,7 @@ public class Robot extends TimedRobot {
   Talon pickupBoi = new Talon(4);
   Talon blaster = new Talon(5);
   Talon blasterSpin = new Talon(6);
-  // I'm a banana!
+  // Fix numbers. I'm a banana!
   SpeedControllerGroup left = new SpeedControllerGroup(frontLeft, backLeft);
   SpeedControllerGroup right = new SpeedControllerGroup(frontRight, backRight);
   DifferentialDrive driveyBoi = new DifferentialDrive(left, right);
@@ -65,7 +66,6 @@ public class Robot extends TimedRobot {
   double camy;
   double camarea;
   // Dooooooobles for lemonlite (:
-  
   /*-----------nice-----------*/
   boolean aligned;
   boolean distanced;
@@ -79,7 +79,8 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    Cam = CameraServer.getInstance().startAutomaticCapture(0);
+    Cam0 = CameraServer.getInstance().startAutomaticCapture(0);
+    Cam1 = CameraServer.getInstance().startAutomaticCapture(0);
   }
 
   /**
@@ -92,8 +93,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-  } 
-  // ecin
+  } // ecin
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
@@ -225,8 +225,6 @@ public class Robot extends TimedRobot {
     }
   }
 }
-
-
 
 
 
