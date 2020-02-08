@@ -8,9 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.*;
@@ -19,6 +19,10 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import com.ctre.phoenix.motorcontrol.can.*;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator.Validity;
+
+import edu.wpi.first.wpilibj.Relay;
 //22
 //23
 /**
@@ -39,13 +43,13 @@ public class Robot extends TimedRobot {
   UsbCamera Cam0;
   UsbCamera Cam1;
   Joystick doIt = new Joystick(0);
-  Talon frontLeft = new Talon(0);
-  Talon frontRight = new Talon(1);
-  Talon backLeft = new Talon(2);
-  Talon backRight = new Talon(3);
-  Talon pickupBoi = new Talon(4);
-  Talon blaster = new Talon(5);
-  Talon blasterSpin = new Talon(6);
+  WPI_TalonSRX frontLeft = new WPI_TalonSRX(0);
+  WPI_TalonSRX frontRight = new WPI_TalonSRX(1);
+  WPI_TalonSRX backLeft = new WPI_TalonSRX(2);
+  WPI_TalonSRX backRight = new WPI_TalonSRX(3);
+  Relay pickupBoi = new Relay(0);
+  WPI_TalonSRX blaster = new WPI_TalonSRX(5);
+  WPI_TalonSRX blasterSpin = new WPI_TalonSRX(6);
   // Fix numbers. I'm a banana!
   SpeedControllerGroup left = new SpeedControllerGroup(frontLeft, backLeft);
   SpeedControllerGroup right = new SpeedControllerGroup(frontRight, backRight);
@@ -80,7 +84,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
     Cam0 = CameraServer.getInstance().startAutomaticCapture(0);
-    Cam1 = CameraServer.getInstance().startAutomaticCapture(0);
+    Cam1 = CameraServer.getInstance().startAutomaticCapture(1);
   }
 
   /**
@@ -143,19 +147,22 @@ public class Robot extends TimedRobot {
     }
 
     if(doIt.getRawButton(1) == true) {
+      blaster.set(-1);
+      blasterSpin.set(1);
+    } else if(doIt.getRawButton(2) == true) {
       blaster.set(1);
       blasterSpin.set(-1);
     } else {
-        blaster.set(0);
-    }
-    if (doIt.getRawButton(2) == true) {
-      blasterSpin.set(1);
+      blaster.set(0);
+      blasterSpin.set(0);
     }
 
-    if (doIt.getRawButton(4) == true) {
-      pickupBoi.set(1);
+    if (doIt.getRawButton(3) == true) {
+      pickupBoi.set(Value.kReverse);
+    } else if(doIt.getRawButton(4) == true) {
+      pickupBoi.set(Value.kForward);
     } else {
-      pickupBoi.set(0);
+      pickupBoi.set(Value.kOff);
     }
 
     camx = tx.getDouble(0.0);
@@ -225,196 +232,3 @@ public class Robot extends TimedRobot {
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// nice
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// jude is kinda dum, not gonna lie
