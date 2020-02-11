@@ -20,7 +20,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import com.ctre.phoenix.motorcontrol.can.*;
-import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator.Validity;
 
 import edu.wpi.first.wpilibj.Relay;
 //22
@@ -191,44 +190,45 @@ public class Robot extends TimedRobot {
     aligned = false;
     distanced = false;
 
-    if (camx > 5 && camx < -5 && camy > 2.3 && camy < -2.3) {
+    if (camx > 16.5 && camx < 12.5 && camy > 3.3 && camy < -3.3) {
       System.out.println("If you shoot you will fail and be sad.");
     }
 
-    if (camx > 5) {
-      left.set(-.3);
-      right.set(-.3);
-      aligned = false;
-      // On left, twist right
-    } else if (camx < -5) {
+    if (camx > 3.3) {
       left.set(.3);
       right.set(.3);
       aligned = false;
+      // On left, twist right
+    } else if (camx < -3.3) {
+      left.set(-.3);
+      right.set(-.3);
+      aligned = false;
       // on right, twist left
-    } else if (camx > -5 && camx < 5) {
+    } else if (camx > -3.3 && camx < 3.3) {
       aligned = true;
     }
 
-    if (camy > 2.3 && aligned == true) {
+    if (camy > 16.5 && aligned == true) {
       left.set(.3);
       right.set(-.3);
       distanced = false;
       // Too close, backs up
-    } else if (camy < -2.3 && aligned == true) {
+    } else if (camy < 12.5 && aligned == true) {
       left.set(-.3);
       right.set(.3);
       distanced = false;
       // Too far, moves closer
-    } else if (camy < 2.3 && camy > -2.3 && aligned == true) {
+    } else if (camy < 16.5 && camy > 12.5 && aligned == true) {
       distanced = true;
     }
 
-    if (distanced == true) {
+    if (distanced == true && aligned == true) {
       System.out.println("Well boys we did it, unalignment is no more.");
-      blaster.set(1);
-      blasterSpin.set(-1);
-      aligned = false;
-      distanced = false;
+      blaster.set(-1);
+      blasterSpin.set(1);
+    } else {
+      blaster.set(0);
+      blasterSpin.set(0);
     }
   }
 }
