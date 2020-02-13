@@ -121,15 +121,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-      autoShoot();
-        break;
-    }
+    autoShoot();
   }
 
   /**
@@ -143,9 +135,7 @@ public class Robot extends TimedRobot {
 
     if (doIt.getRawButton(6) == true) {
       autoShoot();
-    }
-
-    if(doIt.getRawButton(1) == true) {
+    } else if(doIt.getRawButton(1) == true) {
       blaster.set(-1);
       blasterSpin.set(1);
     } else if(doIt.getRawButton(2) == true) {
@@ -214,8 +204,8 @@ public class Robot extends TimedRobot {
       distanced = false;
       // Too close, backs up
     } else if (camy < 12.5 && aligned == true) {
-      left.set(-.3);
-      right.set(.3);
+      left.set(-.15);
+      right.set(.15);
       distanced = false;
       // Too far, moves closer
     } else if (camy < 16.5 && camy > 12.5 && aligned == true) {
@@ -225,6 +215,7 @@ public class Robot extends TimedRobot {
     if (distanced == true && aligned == true) {
       System.out.println("Well boys we did it, unalignment is no more.");
       blaster.set(-1);
+      System.out.println("I should be shooting right now.");
       blasterSpin.set(1);
     } else {
       blaster.set(0);
